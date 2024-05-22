@@ -27,6 +27,16 @@ pub fn create_buffer<T: ocl::OclPrm, I: Into<ocl::SpatialDims> + Clone>(
         .unwrap();
 }
 
+#[allow(unused)]
+/// Creates a vector from a buffer with the same size and type.
+pub fn create_vec_from_buffer<T: ocl::OclPrm>(
+    buffer: &Buffer<T>,
+) -> Vec<T> {
+    let s = buffer.len();
+    let v: Vec<T> = vec![T::default(); s];
+    v
+}
+
 #[macro_export]
 /// Creates a buffer of the specified size with MEM_READ_WRITE flags. The type is inferred from the fill value.
 ///
@@ -44,5 +54,38 @@ macro_rules! buffer {
 macro_rules! buffer_flags {
     ($queue:expr, $size:expr, $fill:expr, $flags:expr) => {{
         buffer::create_buffer($queue, $size, $fill, $flags)
+    }};
+}
+
+
+#[macro_export]
+/// Reads a buffer into a vector.
+///
+/// Syntax: `(buffer: Buffer<T>, vec: Vec<T>)`
+macro_rules! bread {
+    ($buffer:expr, $vec:expr) => {{
+        $buffer.read(&mut $vec).enq().unwrap();
+    }};
+}
+
+#[macro_export]
+/// Writes a vector into a buffer.
+///
+/// Syntax: `(buffer: Buffer<T>, vec: Vec<T>)`
+macro_rules! bwrite {
+    ($buffer:expr, $vec:expr) => {{
+        $buffer.write(&$vec).enq().unwrap();
+    }};
+}
+
+#[macro_export]
+/// Creates a new vector from a buffer.
+///
+/// Syntax: `(buffer: Buffer<T>)`
+macro_rules! bget {
+    ($buffer:expr) => {{
+        let mut vec = buffer::create_vec_from_buffer(&$buffer);
+        $buffer.read(&mut vec).enq().unwrap();
+        vec
     }};
 }
