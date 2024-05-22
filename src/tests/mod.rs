@@ -1,11 +1,10 @@
-use ocl::{Context, Device, Platform, Program, Queue};
+//! Tests for ocl-macros
 
-// 
-// Tests for ocl-macros
-// 
+use ocl::{Context, Device, Platform, Program, Queue};
 
 mod kernel;
 mod buffer;
+mod proque;
 
 const PROGRAM_SRC: &str = r#"
 kernel void build(const float var) {
