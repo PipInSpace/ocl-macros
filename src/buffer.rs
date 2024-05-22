@@ -1,7 +1,7 @@
 use ocl::{flags, Buffer, MemFlags, Queue};
 
 #[allow(unused)]
-/// Creates a buffer of the specified size and MEM_READ_WRITE flags. The type is inferred from the fill value.
+/// Creates a buffer of the specified size and flags. The type is inferred from the fill value.
 pub fn create_buffer<T: ocl::OclPrm, I: Into<ocl::SpatialDims> + Clone>(
     queue: &Queue,
     size: I,
