@@ -1,10 +1,7 @@
-use crate::*;
-use ocl::Kernel;
-use super::{init_program_queue, PROGRAM_SRC};
+//! Tests for Kernel macros
 
-// 
-// Tests for kernel macros
-// 
+use super::{init_program_queue, PROGRAM_SRC};
+use crate::*;
 
 const WORK_SIZE: i32 = 1;
 
@@ -31,7 +28,11 @@ fn macro_kernel_builder() {
 fn macro_kernel_args() {
     let (program, queue) = init_program_queue(PROGRAM_SRC);
     let mut kernel_builder = ocl::Kernel::builder();
-    kernel_builder.program(&program).queue(queue).name("build").global_work_size(WORK_SIZE);
+    kernel_builder
+        .program(&program)
+        .queue(queue)
+        .name("build")
+        .global_work_size(WORK_SIZE);
     kernel_args!(kernel_builder, 0.0f32);
     let _kernel = kernel_builder.build().unwrap();
 }
@@ -40,7 +41,11 @@ fn macro_kernel_args() {
 fn macro_kernel_args_n() {
     let (program, queue) = init_program_queue(PROGRAM_SRC);
     let mut kernel_builder = ocl::Kernel::builder();
-    kernel_builder.program(&program).queue(queue).name("build").global_work_size(WORK_SIZE);
+    kernel_builder
+        .program(&program)
+        .queue(queue)
+        .name("build")
+        .global_work_size(WORK_SIZE);
     kernel_args_n!(kernel_builder, ("test_float", 0.0f32));
     let _kernel = kernel_builder.build().unwrap();
 }

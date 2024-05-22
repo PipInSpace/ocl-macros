@@ -1,9 +1,7 @@
-use crate::*;
-use super::init_queue;
+//! Tests for Buffer macros
 
-// 
-// Tests for buffer macros
-// 
+use super::init_queue;
+use crate::*;
 
 #[test]
 fn macro_buffer() {

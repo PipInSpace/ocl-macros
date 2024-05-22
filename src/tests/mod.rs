@@ -2,8 +2,9 @@
 
 use ocl::{Context, Device, Platform, Program, Queue};
 
-mod kernel;
 mod buffer;
+mod device;
+mod kernel;
 mod proque;
 
 const PROGRAM_SRC: &str = r#"

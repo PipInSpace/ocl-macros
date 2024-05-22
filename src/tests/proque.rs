@@ -1,5 +1,6 @@
+//! Tests for ProQue macros
+
 use crate::*;
-use ocl::ProQue;
 
 #[test]
 fn macro_proque() {
@@ -8,7 +9,7 @@ fn macro_proque() {
 
 #[test]
 fn macro_pq_kernel() {
-    let pq = ProQue::builder()
+    let pq = ocl::ProQue::builder()
         .src(super::PROGRAM_SRC)
         .dims(100)
         .build()
@@ -18,7 +19,7 @@ fn macro_pq_kernel() {
 
 #[test]
 fn macro_pq_kernel_n() {
-    let pq = ProQue::builder()
+    let pq = ocl::ProQue::builder()
         .src(super::PROGRAM_SRC)
         .dims(100)
         .build()
