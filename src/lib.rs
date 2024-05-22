@@ -1,7 +1,7 @@
 extern crate ocl;
 
 // 
-// Macros for easier/faster working with the ocl library.
+// Macros for easier/faster working with the ocl crate.
 // 
 
 #[cfg(test)]
