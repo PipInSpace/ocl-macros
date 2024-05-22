@@ -20,7 +20,7 @@ If you want to use ocl-macros with ocl, add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-ocl-macros = "0.0.1"
+ocl-macros = "0.0.3"
 ```
 Import the macros into your project by adding the following to your project's root:
 ```rust
