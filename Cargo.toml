@@ -2,6 +2,12 @@
 name = "ocl-macros"
 version = "0.0.1"
 edition = "2021"
+description = "Macros for easier/faster working with the ocl crate"
+documentation = "https://docs.rs/ocl-macros"
+readme = "README.md"
+repository = "https://github.com/PipInSpace/ocl-macros"
+license = "MIT OR Apache-2.0"
+keywords = ["ocl", "OpenCL", "macros"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
