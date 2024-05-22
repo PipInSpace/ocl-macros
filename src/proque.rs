@@ -1,6 +1,8 @@
 
 #[macro_export]
-// Creates an ocl process queue struct.
+/// Creates an ocl process queue struct.
+/// 
+/// Sysntax: `(src: &str, size: Into<ocl::SpatialDims>)`
 macro_rules! proque {
     ($src:expr, $size:expr) => {
         {
