@@ -1,6 +1,6 @@
 [package]
 name = "ocl-macros"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2021"
 description = "Macros for easier/faster working with the ocl crate"
 documentation = "https://docs.rs/ocl-macros"
