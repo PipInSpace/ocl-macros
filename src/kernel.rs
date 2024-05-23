@@ -1,26 +1,19 @@
 #[macro_export]
-/// Builds a kernel with named arguments from a program, queue, kernel name and work size. Adds named arguments given as tuples of ("name", arg).
+/// Builds a kernel with arguments from a program, queue, kernel name and work size. Adds unnamed arguments or named arguments given as tuples of ("name", arg).
 ///
-/// Syntax: `(program: Program, queue: Queue, name: &str, size: Into<ocl::SpatialDims>, $(args: (&str, T)),*)`
-macro_rules! kernel_n {
-    ($p:expr, $q:expr, $name:expr, $n:expr, $( $arg:expr),*) => {
+/// Syntax: `(program: Program, queue: Queue, name: &str, size: Into<ocl::SpatialDims>, $(args: T OR (&str, T)),*)`
+macro_rules! kernel {
+    ($p:expr, $q:expr, $name:expr, $n:expr, $( ($argname:expr, $arg:expr)),*) => { // Named arguments as tuples
         {
             let mut kernel_builder = ocl::Kernel::builder();
             kernel_builder.program(&$p).name($name).queue($q.clone()).global_work_size($n);
             $(
-                kernel_builder.arg_named($arg.0, $arg.1);
+                kernel_builder.arg_named($argname, $arg);
             )*
             kernel_builder.build().unwrap()
         }
     };
-}
-
-#[macro_export]
-/// Builds a kernel with unnamed arguments from a program, queue, kernel name and work size. Adds unnamed arguments.
-///
-/// Syntax: `(program: Program, queue: Queue, name: &str, size: Into<ocl::SpatialDims>, $(args: T),*)`
-macro_rules! kernel {
-    ($p:expr, $q:expr, $name:expr, $n:expr, $( $arg:expr),*) => {
+    ($p:expr, $q:expr, $name:expr, $n:expr, $( $arg:expr),*) => { // Unnamed arguments
         {
             let mut kernel_builder = ocl::Kernel::builder();
             kernel_builder.program(&$p).name($name).queue($q.clone()).global_work_size($n);
@@ -49,23 +42,16 @@ macro_rules! kernel_builder {
 }
 
 #[macro_export]
-/// Adds named arguments to Kernel given as tuples of ("name", arg).
+/// Adds unnamed arguments or named arguments given as tuples of ("name", arg) to Kernel.
 ///
-/// Syntax: `(kernel: Kernel, args: (&str, T))`
-macro_rules! kernel_args_n {
-    ($kernel:expr, $( $arg:expr),*) => {
+/// Syntax: `(kernel: Kernel, $(args: T OR (&str, T)),*)`
+macro_rules! kernel_args {
+    ($kernel:expr, $( ($argname:expr, $arg:expr)),*) => { // Named arguments
         $(
-            $kernel.arg_named($arg.0, $arg.1);
+            $kernel.arg_named($argname, $arg);
         )*
     };
-}
-
-#[macro_export]
-/// Adds unnamed arguments to Kernel.
-///
-/// Syntax: `(kernel: Kernel, args: T)`
-macro_rules! kernel_args {
-    ($kernel:expr, $( $arg:expr),*) => {
+    ($kernel:expr, $( $arg:expr),*) => { // Unnamed arguments
         $(
             $kernel.arg($arg);
         )*

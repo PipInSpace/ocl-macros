@@ -29,9 +29,7 @@ pub fn create_buffer<T: ocl::OclPrm, I: Into<ocl::SpatialDims> + Clone>(
 
 #[allow(unused)]
 /// Creates a vector from a buffer with the same size and type.
-pub fn create_vec_from_buffer<T: ocl::OclPrm>(
-    buffer: &Buffer<T>,
-) -> Vec<T> {
+pub fn create_vec_from_buffer<T: ocl::OclPrm>(buffer: &Buffer<T>) -> Vec<T> {
     let s = buffer.len();
     let v: Vec<T> = vec![T::default(); s];
     v
@@ -56,7 +54,6 @@ macro_rules! buffer_flags {
         buffer::create_buffer($queue, $size, $fill, $flags)
     }};
 }
-
 
 #[macro_export]
 /// Reads a buffer into a vector.
