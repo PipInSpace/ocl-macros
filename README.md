@@ -1,6 +1,6 @@
 # ocl-macros
 
-#### [Documentation](https://docs.rs/ocl-macros) | [Change Log](https://github.com/pipinspace/ocl-macros/blob/master/RELEASES.md)
+#### [Documentation](https://docs.rs/ocl-macros) | [Change Log](https://github.com/pipinspace/ocl-macros/blob/main/RELEASES.md)
 
 [![](https://img.shields.io/crates/v/ocl-macros.svg)](https://crates.io/crates/ocl-macros) [![](https://docs.rs/ocl-macros/badge.svg)](https://docs.rs/ocl-macros)
 
