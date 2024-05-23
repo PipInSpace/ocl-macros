@@ -35,7 +35,7 @@ use ocl::{Context, Device, Platform, Program, Queue};
 use ocl_macros::*;
 
 let PROGRAM_SRC: &str = r#"
-kernel void build(global float* var) {
+kernel void add_one(global float* var) {
     const uint n = get_global_id(0);
     // This program adds 1.0f to each element in the buffer
     var[n] += 1.0f;
@@ -60,8 +60,8 @@ let program = Program::builder()
 
 // Create new float buffer with 100 elements of starting value 0.0f32
 let buffer = buffer!(&queue, 100, 0.0f32);
-// Create the "build" kernel with work size 100 and buffer as first unnamed argument
-let kernel = kernel!(program, queue, "build", 100, &buffer);
+// Create the "add_one" kernel with work size 100 and buffer as first unnamed argument
+let kernel = kernel!(program, queue, "add_one", 100, &buffer);
 
 // Run kernel (This is unsafe)
 unsafe { kernel.enq().unwrap(); }
@@ -70,6 +70,8 @@ let vec = bget!(buffer);
 // The elements are now 1.0f32!
 assert!(vec[0] == 1.0f32);
 ```
+This code uses various macros to create a new buffer and kernel with the created buffer as an unnamed argument.
+The kernel is then executed. The buffer content is read into a new vector and verified. It has changed from 0.0 to 1.0!
 
 ## License
 

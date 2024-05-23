@@ -1,4 +1,4 @@
-Version 0.0.5 (UNRELEASED)
+Version 0.0.5 (2024-05-23)
 ===========================
 
 * `pq_kernel!()` macro now accept both named and unnamed arguments
