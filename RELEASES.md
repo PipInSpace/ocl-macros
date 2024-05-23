@@ -1,3 +1,14 @@
+Version 0.0.5 (UNRELEASED)
+===========================
+
+* `pq_kernel!()` macro now accept both named and unnamed arguments
+
+Breaking Changes
+----------------
+
+* `pq_kernel_n!()` macro has been removed as its features have been integrated into `pq_kernel!()`. Simply delete the "_n" at the macro end.
+
+
 Version 0.0.4 (2024-05-23)
 ===========================
 

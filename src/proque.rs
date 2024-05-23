@@ -29,10 +29,19 @@ macro_rules! pq_kernel_n {
 }
 
 #[macro_export]
-/// Builds a kernel with unnamed arguments from a ProQue and the kernel name. Adds unnamed arguments.
+/// Builds a kernel with arguments from a ProQue and the kernel name. Adds unnamed arguments or named arguments given as tuples of ("name", arg).
 ///
 /// Syntax: `(proque: ProQue, name: &str, $(args: T),*)`
 macro_rules! pq_kernel {
+    ($pq:expr, $name:expr, $( ($argname:expr, $arg:expr)),*) => {
+        {
+            let mut kernel_builder = $pq.kernel_builder($name);
+            $(
+                kernel_builder.arg_named($argname, $arg);
+            )*
+            kernel_builder.build().unwrap()
+        }
+    };
     ($pq:expr, $name:expr, $( $arg:expr),*) => {
         {
             let mut kernel_builder = $pq.kernel_builder($name);

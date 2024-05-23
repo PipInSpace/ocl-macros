@@ -8,24 +8,44 @@
 //!
 //! This is an example use-case of ocl-macros:
 //! ```rust
-//! use ocl::{Context, Device, Platform, Queue};
+//! use ocl::{Context, Device, Platform, Program, Queue};
 //! use ocl_macros::*;
 //!
+//! let PROGRAM_SRC: &str = r#"
+//! kernel void build(global float* var) {
+//!     const uint n = get_global_id(0);
+//!     // This program adds 1.0f to each element in the buffer
+//!     var[n] += 1.0f;
+//! }
+//! "#;
+//! 
 //! // Initialize OpenCL context/queue
 //! let platform = Platform::default();
-//! let devices = Device::list_all(platform).expect("Cannot find devices");
-//! if devices.is_empty() {
-//!     panic!("No OpenCL Device detected")
-//! }
+//! // Get first device on default platform
+//! let device = default_device!();
 //! let context = Context::builder()
 //!     .platform(platform)
-//!     .devices(devices[0])
+//!     .devices(device)
 //!     .build()
 //!     .unwrap();
-//! let queue = Queue::new(&context, devices[0], None).unwrap();
-//!
-//! // Construct new ocl float buffer with 100 elements of starting value 0.0
+//! let queue = Queue::new(&context, device, None).unwrap();
+//! let program = Program::builder()
+//!     .devices(device)
+//!     .src(PROGRAM_SRC)
+//!     .build(&context)
+//!     .unwrap();
+//! 
+//! // Create new float buffer with 100 elements of starting value 0.0f32
 //! let buffer = buffer!(&queue, 100, 0.0f32);
+//! // Create the "build" kernel with work size 100 and buffer as first unnamed argument
+//! let kernel = kernel!(program, queue, "build", 100, &buffer);
+//! 
+//! // Run kernel (This is unsafe)
+//! unsafe { kernel.enq().unwrap(); }
+//! // Get buffer content as new vector
+//! let vec = bget!(buffer);
+//! // The elements are now 1.0f32!
+//! assert!(vec[0] == 1.0f32);
 //! ```
 //! This code uses the `buffer!()` macro to create a new `ocl::Buffer<f32>` with 100 elements of `0.0f32`.
 //!

@@ -14,15 +14,13 @@ fn macro_pq_kernel() {
         .dims(100)
         .build()
         .expect("Build ProQue");
-    let _kernel = pq_kernel!(pq, "build", 0.0f32);
-}
+    
+    // Create kernel with unnamed arguments
+    let kernel = pq_kernel!(pq, "build", 0.0f32);
 
-#[test]
-fn macro_pq_kernel_n() {
-    let pq = ocl::ProQue::builder()
-        .src(super::PROGRAM_SRC)
-        .dims(100)
-        .build()
-        .expect("Build ProQue");
-    let _kernel = pq_kernel_n!(pq, "build", ("test_float", 0.0f32));
+    // Create kernel with named arguments
+    let kernel_n = pq_kernel!(pq, "build", ("name", 0.0f32));
+
+    assert!(kernel.set_arg("name", 10.0f32).is_err()); // This should fail due to lack of named arguments
+    kernel_n.set_arg("name", 10.0f32).unwrap();
 }
